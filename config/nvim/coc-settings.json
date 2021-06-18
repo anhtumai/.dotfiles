@@ -1,0 +1,16 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [],
+  "coc.preferences.formatOnType": false,
+
+  // python config
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "/home/anhtumai/.local/bin/black",
+  "snippets.ultisnips.directories": ["UltiSnips", "~/.config/nvim/ultisnips"],
+
+  // explorer
+  "explorer.width": 30,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.previewAction.onHover": false
+}
