@@ -114,6 +114,13 @@ kotlinr () {
     fi
 }
 
+pimage () {
+    if [[ $1 =~ '.+.png' ]]; then
+        xclip -selection clipboard -t image/png -o > $1
+    else
+        echo "Wrong format. Argument must be path to .png file"
+    fi
+}
 # Example aliases
 alias sudo='sudo '
 alias zshconfig="mate ~/.zshrc"
