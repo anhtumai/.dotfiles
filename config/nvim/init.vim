@@ -3,18 +3,15 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdtree'
-"Plug 'tsony-tsonev/nerdtree-git-plugin'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
-Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
 Plug 'scrooloose/nerdcommenter'
-"Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 Plug 'christoomey/vim-tmux-navigator'
 
-Plug 'morhetz/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'norcalli/nvim-colorizer.lua'
@@ -22,6 +19,18 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 
 Plug 'alvan/vim-closetag' " JSX, TSX, HTML autoclose
+
+Plug 'neovimhaskell/haskell-vim'
+Plug 'romainl/Apprentice'
+
+Plug 'sheerun/vim-polyglot'
+
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+Plug 'jparise/vim-graphql'
+
+Plug 'pangloss/vim-javascript'
 
 " Initialize plugin system
 call plug#end()
@@ -33,8 +42,12 @@ imap <C-s> <ESC>:w<CR>
 nmap <C-s> <ESC>:w<CR>
 
 " Format Python scripts
-imap <C-a> :call CocAction("format")<CR>
-nmap <C-a> :call CocAction("format")<CR>
+imap <C-a> <ESC>:call CocAction("format")<CR>
+nmap <C-a> <ESC>:call CocAction("format")<CR>
+
+" Open FZF window
+imap <C-p> <ESC>:GFiles<CR>
+nmap <C-p> <ESC>:GFiles<CR>
 
 " Quit a program and save
 imap <C-e> <ESC>:q!<CR>
@@ -69,19 +82,6 @@ let g:NERDTreeGitStatusWithFlags = 1
 
 let g:NERDTreeIgnore = ['^node_modules$']
 
-" vim-prettier
-"let g:prettier#quickfix_enabled = 0
-"let g:prettier#quickfix_auto_focus = 0
-" prettier command for coc
-" command! -nargs=0 Prettier :CocCommand prettier.formatFile
-" run prettier on save
-"let g:prettier#autoformat = 0
-"autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
-
-
-" ctrlp
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-
 " j/k will move virtual lines (lines that wrap)
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
@@ -96,6 +96,9 @@ set shiftwidth=2
 set expandtab
 set clipboard=unnamedplus
 
+" syntax on
+" filetype plugin indent on
+
 colorscheme gruvbox
 
 " sync open file with NERDTree
@@ -103,18 +106,6 @@ colorscheme gruvbox
 function! IsNERDTreeOpen()        
   return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
 endfunction
-
-" Call NERDTreeFind iff NERDTree is active, current window contains a modifiable
-" file, and we're not in vimdiff
-"function! SyncTree()
-  "if &modifiable && IsNERDTreeOpen() && strlen(expand('%')) > 0 && !&diff
-    "NERDTreeFind
-    "wincmd p
-  "endif
-"endfunction
-
-"" Highlight currently open buffer in NERDTree
-"autocmd BufEnter * call SyncTree()
 
 " coc config
 let g:coc_global_extensions = [
@@ -147,11 +138,7 @@ set signcolumn=yes
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" not implemented
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -205,6 +192,11 @@ augroup mygroup
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
+
+augroup filetype_jsx
+    autocmd!
+    autocmd FileType javascript set filetype=javascriptreact
+augroup END
 
 " Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
@@ -303,6 +295,23 @@ let g:closetag_shortcut = '>'
 "
 let g:closetag_close_shortcut = 'C->'
 
+
+" For haskell development
+
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+
+" after/syntax/haskell.vim
+highlight link VarId Identifier
+highlight link ConId Type
+
+let g:LanguageClient_serverCommands = {
+\ 'rust': ['rust-analyzer'],
+\ }
+
 source $HOME/.config/nvim/plug-config/coc.vim
-
-
