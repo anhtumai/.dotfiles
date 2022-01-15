@@ -274,12 +274,6 @@ let g:closetag_xhtml_filetypes = 'xhtml,jsx,js,tsx'
 "
 let g:closetag_emptyTags_caseSensitive = 1
 
-" dict
-" Disables auto-close if not in a "valid" region (based on filetype)
-"
-" source $HOME/.config/nvim/plug-config/coc.vim
-"
-"
 let g:closetag_regions = {
     \ 'typescript.tsx': 'jsxRegion,tsxRegion',
     \ 'javascript.jsx': 'jsxRegion',
