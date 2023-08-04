@@ -1,11 +1,5 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": [
-    "yaml",
-    "yml",
-    "typescript",
-    "typescriptreact",
-    "ts"
-  ],
+  "coc.preferences.formatOnSaveFiletypes": ["yaml", "yml", "typescriptreact"],
   "coc.preferences.formatOnType": false,
 
   // python config
@@ -32,9 +26,26 @@
   // rust
   "rust-analyzer.enable": true,
   "rust-analyzer.trace.server": "verbose",
+  "rust-analyzer.diagnostics.disabled": ["inactive-code"],
 
-  // haskell
+  // dart
+  //"dart.lineLength": 100,
+  "dart.completeFunctionCalls": false,
+
+  // java
+
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-19"
+    }
+  ],
+
   "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"]
+    },
     "haskell": {
       "command": "haskell-language-server-wrapper",
       "args": ["--lsp"],
@@ -55,5 +66,6 @@
         }
       }
     }
-  }
+  },
+  "snippets.ultisnips.pythonPrompt": false
 }
