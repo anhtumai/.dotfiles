@@ -5,15 +5,15 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
+"Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/nerdcommenter'
 
-Plug 'christoomey/vim-tmux-navigator'
+"Plug 'christoomey/vim-tmux-navigator'
 
 Plug 'gruvbox-community/gruvbox'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 Plug 'norcalli/nvim-colorizer.lua'
 
 Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
@@ -21,9 +21,7 @@ Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 Plug 'alvan/vim-closetag' " JSX, TSX, HTML autoclose
 
 Plug 'neovimhaskell/haskell-vim'
-Plug 'romainl/Apprentice'
-
-Plug 'sheerun/vim-polyglot'
+"Plug 'romainl/Apprentice'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -31,6 +29,15 @@ Plug 'junegunn/fzf.vim'
 Plug 'jparise/vim-graphql'
 
 Plug 'pangloss/vim-javascript'
+
+Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
+
+Plug 'natebosch/dartlang-snippets'
+Plug 'dart-lang/dart-vim-plugin'
+
+"Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Initialize plugin system
 call plug#end()
@@ -41,22 +48,23 @@ call plug#end()
 imap <C-s> <ESC>:w<CR>
 nmap <C-s> <ESC>:w<CR>
 
-" Format Python scripts
-imap <C-a> <ESC>:call CocAction("format")<CR>
-nmap <C-a> <ESC>:call CocAction("format")<CR>
+" format all scripts
+map <C-f> <ESC>:call CocAction("format")<CR>
 
 " Open FZF window
 imap <C-p> <ESC>:GFiles<CR>
 nmap <C-p> <ESC>:GFiles<CR>
 
-" Quit a program and save
-imap <C-e> <ESC>:q!<CR>
-nmap <C-e> :q<CR>
+" go to the beginning of line
+map <C-a> ^
+
+" go to the end of line
+map <C-e> $
 
 inoremap jk <ESC>
 
 let NERDTreeQuitOnOpen=1
-let g:NERDTreeMinimalUI=1
+  let g:NERDTreeMinimalUI=1
 nmap <C-n> :NERDTreeToggle<CR>
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
@@ -96,7 +104,7 @@ set shiftwidth=2
 set expandtab
 set clipboard=unnamedplus
 
-" syntax on
+syntax on
 " filetype plugin indent on
 
 colorscheme gruvbox
@@ -110,11 +118,10 @@ endfunction
 " coc config
 let g:coc_global_extensions = [
   \ 'coc-snippets',
-  \ 'coc-pairs',
   \ 'coc-tsserver',
   \ 'coc-eslint', 
   \ 'coc-prettier', 
-  \ 'coc-json', 
+  \ 'coc-json',
   \ ]
 " from readme
 " if hidden is not set, TextEdit might fail.
@@ -150,7 +157,7 @@ inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -307,5 +314,44 @@ highlight link ConId Type
 let g:LanguageClient_serverCommands = {
 \ 'rust': ['rust-analyzer'],
 \ }
+
+" Treesitter
+lua << EOF
+-- your lua code here
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF
+
+" vim-go
+"let g:go_fmt_command = "goimports"
+"let g:go_fmt_autosave = 0
+"let g:go_imports_autosave = 0
+"let g:go_gopls_enabled = 0
+"let g:go_code_completion_enabled = 0
+"let g:go_auto_sameids = 0
+"let g:go_def_mapping_enabled = 0
+"let g:go_diagnostics_enabled = 0
+"let g:go_echo_go_info = 0
+"let g:go_metalinter_enabled = 0
+
+"let g:go_doc_popup_window = 1
+
+"let g:go_highlight_types = 1
+"let g:go_highlight_fields = 1
+"let g:go_highlight_functions = 1
+"let g:go_highlight_function_calls = 1
+
+" Default to static completion for SQL
+let g:omni_sql_default_compl_type = 'syntax'
+let g:loaded_sql_completion = 0
+let g:omni_sql_no_default_maps = 1
 
 source $HOME/.config/nvim/plug-config/coc.vim
