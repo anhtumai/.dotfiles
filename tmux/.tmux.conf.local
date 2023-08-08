@@ -330,7 +330,7 @@ tmux_conf_copy_to_os_clipboard=false
 #set -g history-limit 10000
 
 # start with mouse mode enabled
-set -g mouse on
+#set -g mouse on
 
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
@@ -373,10 +373,8 @@ tmux_conf_update_plugins_on_reload=true
 # visit https://github.com/tmux-plugins for available plugins
 #set -g @plugin 'tmux-plugins/tmux-copycat'
 #set -g @plugin 'tmux-plugins/tmux-cpu'
-set -g @plugin 'tmux-plugins/tpm'
-set -g @plugin 'tmux-plugins/tmux-resurrect'
+#set -g @plugin 'tmux-plugins/tmux-resurrect'
 #set -g @plugin 'tmux-plugins/tmux-continuum'
-set -g @plugin 'tmux-plugins/tmux-yank'
 #set -g @continuum-restore 'on'
 
 
@@ -406,11 +404,3 @@ set -g @plugin 'tmux-plugins/tmux-yank'
 #
 # "$@"
 # # /!\ do not remove the previous line
-#
-
-set -g @yank_selection 'primary'
-set -g @yank_selection_mouse 'clipboard'
-set -g @override_copy_command 'wl-copy'
-
-run -b '~/.tmux/plugins/tpm/tpm'
-run-shell ~/.tmux/plugins/tmux-yank/yank.tmux
